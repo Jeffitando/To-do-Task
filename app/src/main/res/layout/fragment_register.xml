@@ -82,7 +82,7 @@
                 android:elevation="10dp"
                 android:text="Criar conta"
                 android:textAllCaps="false"
-                android:textColor="@color/material_dynamic_neutral30"
+                android:textColor="@color/black"
                 app:backgroundTint="@null" />
 
         </LinearLayout>

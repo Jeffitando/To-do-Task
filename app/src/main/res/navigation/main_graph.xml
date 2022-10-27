@@ -9,7 +9,7 @@
         android:id="@+id/splashFragment"
         android:name="com.example.task.ui.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/splash_fragment" >
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
