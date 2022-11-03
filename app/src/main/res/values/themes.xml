@@ -16,4 +16,11 @@
         //deixa a cor escolhida como default
         <item name="android:windowBackground">@color/color_default</item>
     </style>
+
+    <style name="CustomTabLayout" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
