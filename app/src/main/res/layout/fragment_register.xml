@@ -56,6 +56,7 @@
                 android:background="@drawable/bg_edit"
                 android:elevation="10dp"
                 android:hint="email@email.com"
+                android:inputType="textEmailAddress"
                 android:padding="14dp"
                 android:textSize="14sp" />
 
@@ -73,6 +74,7 @@
                 android:background="@drawable/bg_edit"
                 android:elevation="10dp"
                 android:hint="********"
+                android:inputType="textPassword"
                 android:padding="14dp"
                 android:textSize="14sp" />
 
