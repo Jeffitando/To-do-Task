@@ -31,7 +31,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:tabIndicatorColor="@color/white"
                 app:tabTextAppearance="@style/CustomTabLayout"
-                app:tabTextColor="@color/white" />
+                app:tabTextColor="@color/black" />
 
             <ImageButton
                 android:id="@+id/ibLogout"

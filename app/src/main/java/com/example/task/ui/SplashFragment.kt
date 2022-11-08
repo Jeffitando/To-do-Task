@@ -10,12 +10,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.task.R
 import com.example.task.databinding.SplashFragmentBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 class SplashFragment : Fragment() {
 
     private var _binding: SplashFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var auth: FirebaseAuth
 
 
     override fun onCreateView(
@@ -35,10 +40,18 @@ class SplashFragment : Fragment() {
 
         //Tempo em que a Splash vai ficar visivel para o usuario
         Handler(Looper.getMainLooper()).postDelayed(this::checkAuth, 5000)
+
     }
 
     private fun checkAuth() {
-        findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+
+        auth = Firebase.auth
+        //Caso o usuario não tenha registro no app
+        if (auth.currentUser == null){
+            findNavController().navigate(R.id.action_splashFragment_to_authentication)
+        }else{
+            findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+        }
     }
 
     override fun onDestroyView() {

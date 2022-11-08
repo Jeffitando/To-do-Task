@@ -53,7 +53,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnRecover.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_recoverAccountFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_recoverAccountFragment2)
         }
     }
 
@@ -85,7 +85,7 @@ class LoginFragment : Fragment() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                    findNavController().navigate(R.id.action_global_homeFragment)
                 } else {
                     binding.progressBar.isVisible = false
                 }
