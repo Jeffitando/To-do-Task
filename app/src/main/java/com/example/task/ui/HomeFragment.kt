@@ -45,6 +45,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initClicks() {
+        binding.fab
         binding.ibLogout.setOnClickListener { logoutApp() }
     }
 

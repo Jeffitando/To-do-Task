@@ -28,7 +28,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Recuperar conta"
+                    android:text="@string/text_recover_account"
                     android:textStyle="bold" />
 
             </androidx.appcompat.widget.Toolbar>
@@ -45,7 +45,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="E-mail" />
+                android:text="@string/text_email" />
 
             <EditText
                 android:id="@+id/edtEmail"
@@ -67,7 +67,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_button"
                 android:elevation="10dp"
-                android:text="Enviar"
+                android:text="@string/text_btn_recover_account_fragment"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 app:backgroundTint="@null" />

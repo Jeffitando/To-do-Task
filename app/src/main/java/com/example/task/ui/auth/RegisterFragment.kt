@@ -1,6 +1,7 @@
 package com.example.task.ui.auth
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.task.R
 import com.example.task.databinding.FragmentRegisterBinding
 import com.example.task.databinding.FragmentRegisterBinding.inflate
+import com.example.task.helper.FirebaseHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -75,6 +77,12 @@ class RegisterFragment : Fragment() {
                 if (task.isSuccessful) {
                   findNavController().navigate(R.id.action_global_homeFragment)
                 } else {
+                   // Log.i("INFOTESTE", "loginUser: ${task.exception?.message}")
+                    Toast.makeText(
+                        requireContext(),
+                        FirebaseHelper.validError(task.exception?.message ?: ""),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     binding.progressBar.isVisible = false
                 }
             }
