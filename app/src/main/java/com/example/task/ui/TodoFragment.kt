@@ -110,6 +110,9 @@ class TodoFragment : Fragment() {
             .child(FirebaseHelper.getIdUser() ?: "")
             .child(task.id)
             .removeValue()
+
+        taskList.remove(task)
+        taskAdapter.notifyDataSetChanged()
     }
 
     override fun onDestroy() {
