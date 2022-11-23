@@ -23,7 +23,7 @@
 
     <!--    Form Task Fragment-->
     <string name="text_title_form_task_fragment">Nova tarefa</string>
-    <string name="text_task_form_task_fragment">Tarefa</string>
+    <string name="text_description_form_task_fragment">Descrição</string>
     <string name="text_status_form_task_fragment">Status</string>
     <string name="text_btn_save_task_form_task_fragment">Salvar</string>
 
