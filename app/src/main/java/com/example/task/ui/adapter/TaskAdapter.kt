@@ -86,4 +86,6 @@ class TaskAdapter(
     inner class MyViewHolder(val binding: ItemAdapterBinding) :
         RecyclerView.ViewHolder(binding.root)
 
+    //teste
+
 }
