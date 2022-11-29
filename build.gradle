@@ -7,6 +7,10 @@ buildscript {
         //  FireBase
         classpath 'com.google.gms:google-services:4.3.14'
 
+        // Safe Args
+        def nav_version = "2.5.3"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+
     }
 }
 

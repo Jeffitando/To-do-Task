@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.task.R
 import com.example.task.databinding.FragmentFormTaskBinding
 import com.example.task.helper.FirebaseHelper
@@ -15,6 +16,8 @@ import com.example.task.model.Task
 
 
 class FormTaskFragment : Fragment() {
+
+    private val args: FormTaskFragmentArgs by navArgs()
 
     private var _binding: FragmentFormTaskBinding? = null
     private val binding get() = _binding!!
@@ -36,12 +39,26 @@ class FormTaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initListners()
+
+        getArgs()
+    }
+
+    private fun getArgs() {
+        args.task.let {
+            if (it != null) {
+                task = it
+
+                newTask = false
+                statusTask = task.status
+                binding.textToolbar.text = "Editando tarefa..."
+            }
+        }
     }
 
     private fun initListners() {
         binding.btnSave.setOnClickListener { validateTask() }
 
-        binding.radioGroup.setOnCheckedChangeListener { _, i ->
+        binding.radioGroup.setOnCheckedChangeListener { _, _ ->
             statusTask = when (id) {
                 R.id.rbTodo -> 0
                 R.id.rbDoing -> 1
