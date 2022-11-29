@@ -57,7 +57,7 @@ class FormTaskFragment : Fragment() {
 
     private fun initListners() {
         binding.btnSave.setOnClickListener { validateTask() }
-
+        // na segunda underline estava um ( i )
         binding.radioGroup.setOnCheckedChangeListener { _, _ ->
             statusTask = when (id) {
                 R.id.rbTodo -> 0
