@@ -48,17 +48,43 @@ class FormTaskFragment : Fragment() {
             if (it != null) {
                 task = it
 
-                newTask = false
-                statusTask = task.status
-                binding.textToolbar.text = "Editando tarefa..."
+
+
+                configTask()
             }
         }
+    }
+
+    private fun configTask() {
+        newTask = false
+        statusTask = task.status
+        binding.textToolbar.text = "Editando tarefa..."
+
+        binding.edtDescription.setText(task.description)
+
+        setStatus()
+    }
+
+    private fun setStatus() {
+        binding.radioGroup.check(
+            when (task.status) {
+                0 -> {
+                    R.id.rbTodo
+                }
+                1 -> {
+                    R.id.rbDoing
+                }
+                else -> {
+                    R.id.rbDone
+                }
+            }
+        )
     }
 
     private fun initListners() {
         binding.btnSave.setOnClickListener { validateTask() }
         // na segunda underline estava um ( i )
-        binding.radioGroup.setOnCheckedChangeListener { _, _ ->
+        binding.radioGroup.setOnCheckedChangeListener { _, i ->
             statusTask = when (id) {
                 R.id.rbTodo -> 0
                 R.id.rbDoing -> 1
@@ -92,8 +118,13 @@ class FormTaskFragment : Fragment() {
     }
 
     private fun saveTask() {
-        FirebaseHelper.getDatabase().child("task").child(FirebaseHelper.getIdUser() ?: "")
-            .child(task.id).setValue(task).addOnCompleteListener { task ->
+        FirebaseHelper
+            .getDatabase()
+            .child("task")
+            .child(FirebaseHelper.getIdUser() ?: "")
+            .child(task.id)
+            .setValue(task)
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     if (newTask) {// Nova tarefa
                         //quando filanizar a tarefa a tela vai fechar e voltar para a anterior
