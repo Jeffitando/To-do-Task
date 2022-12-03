@@ -11,13 +11,15 @@ import androidx.navigation.fragment.findNavController
 import com.example.task.R
 import com.example.task.databinding.FragmentRecoverAccountBinding
 import com.example.task.databinding.FragmentRegisterBinding
+import com.example.task.helper.BaseFragment
 import com.example.task.helper.FirebaseHelper
+import com.example.task.helper.initToolbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 
-class RecoverAccountFragment : Fragment() {
+class RecoverAccountFragment : BaseFragment() {
 
     private var _binding: FragmentRecoverAccountBinding? = null
     private val binding get() = _binding!!
@@ -34,6 +36,8 @@ class RecoverAccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initToolbar(binding.toolbar)
 
         auth = Firebase.auth
 
@@ -53,6 +57,8 @@ class RecoverAccountFragment : Fragment() {
 
 
         if (email.isNotEmpty()) {
+
+            hideKeyboard()
 
             binding.progressBar.isVisible = true
 

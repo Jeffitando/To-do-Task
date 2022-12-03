@@ -68,15 +68,11 @@ class TodoFragment : Fragment() {
 
                             if (task.status == 0) taskList.add(task)
                         }
-
-                        binding.textInfo.text = ""
-
                         taskList.reverse()
                         initAdapter()
-
-                    } else {
-                        binding.textInfo.text = "Nenhuma tarefa cadastrada."
                     }
+
+                    tasksEmpty()
 
                     binding.progressBar.isVisible = false
                 }
@@ -85,6 +81,14 @@ class TodoFragment : Fragment() {
                     Toast.makeText(requireContext(), "Erro", Toast.LENGTH_SHORT).show()
                 }
             })
+    }
+
+    private fun tasksEmpty(){
+        binding.textInfo.text = if (taskList.isEmpty()){
+           getText(R.string.text_task_list_empty_todo_fragment)
+        }else{
+            ""
+        }
     }
 
     private fun initAdapter() {

@@ -13,13 +13,15 @@ import androidx.navigation.fragment.findNavController
 import com.example.task.R
 import com.example.task.databinding.FragmentRegisterBinding
 import com.example.task.databinding.FragmentRegisterBinding.inflate
+import com.example.task.helper.BaseFragment
 import com.example.task.helper.FirebaseHelper
+import com.example.task.helper.initToolbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : BaseFragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
@@ -36,6 +38,8 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initToolbar(binding.toolbar)
 
         auth = Firebase.auth
 
@@ -54,6 +58,8 @@ class RegisterFragment : Fragment() {
 
         if (email.isNotEmpty()) {
             if (password.isNotEmpty()) {
+
+                hideKeyboard()
 
                 binding.progressBar.isVisible = true
 

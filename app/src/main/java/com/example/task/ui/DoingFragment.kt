@@ -61,15 +61,11 @@ class DoingFragment : Fragment() {
 
                             if (task.status == 1) taskList.add(task)
                         }
-
-                        binding.textInfo.text = ""
-
                         taskList.reverse()
                         initAdapter()
 
-                    } else {
-                        binding.textInfo.text = "Nenhuma tarefa cadastrada."
                     }
+                    tasksEmpty()
 
                     binding.progressBar.isVisible = false
                 }
@@ -78,6 +74,14 @@ class DoingFragment : Fragment() {
                     Toast.makeText(requireContext(), "Erro", Toast.LENGTH_SHORT).show()
                 }
             })
+    }
+
+    private fun tasksEmpty() {
+        binding.textInfo.text = if (taskList.isEmpty()) {
+            getText(R.string.text_task_list_empty_doing_fragment)
+        } else {
+            ""
+        }
     }
 
     private fun initAdapter() {
@@ -99,18 +103,18 @@ class DoingFragment : Fragment() {
                 val action = HomeFragmentDirections.actionHomeFragmentToFormTaskFragment(task)
                 findNavController().navigate(action)
             }
-            TaskAdapter.SELECT_BACK ->{
+            TaskAdapter.SELECT_BACK -> {
                 task.status = 0
                 updateTask(task)
             }
-            TaskAdapter.SELECT_NEXT ->{
+            TaskAdapter.SELECT_NEXT -> {
                 task.status = 2
                 updateTask(task)
             }
         }
     }
 
-    private fun updateTask(task:Task) {
+    private fun updateTask(task: Task) {
         FirebaseHelper
             .getDatabase()
             .child("task")

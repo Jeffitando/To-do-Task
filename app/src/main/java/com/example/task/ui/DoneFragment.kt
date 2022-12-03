@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.task.R
 import com.example.task.databinding.FragmentDoingBinding
 import com.example.task.databinding.FragmentDoneBinding
+import com.example.task.helper.BaseFragment
 import com.example.task.helper.FirebaseHelper
 import com.example.task.model.Task
 import com.example.task.ui.adapter.TaskAdapter
@@ -20,7 +21,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 
-class DoneFragment : Fragment() {
+class DoneFragment : BaseFragment() {
 
     private var _binding: FragmentDoneBinding? = null
     private val binding get() = _binding!!
@@ -56,6 +57,7 @@ class DoneFragment : Fragment() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
 
+
                         taskList.clear()
                         for (snap in snapshot.children) {
                             val task = snap.getValue(Task::class.java) as Task
@@ -63,14 +65,13 @@ class DoneFragment : Fragment() {
                             if (task.status == 2) taskList.add(task)
                         }
 
-                        binding.textInfo.text = ""
+
 
                         taskList.reverse()
                         initAdapter()
 
-                    } else {
-                        binding.textInfo.text = "Nenhuma tarefa cadastrada."
                     }
+                    tasksEmpty()
 
                     binding.progressBar.isVisible = false
                 }
@@ -79,6 +80,14 @@ class DoneFragment : Fragment() {
                     Toast.makeText(requireContext(), "Erro", Toast.LENGTH_SHORT).show()
                 }
             })
+    }
+
+    private fun tasksEmpty() {
+        binding.textInfo.text = if (taskList.isEmpty()) {
+            getText(R.string.text_task_list_empty_done_fragment)
+        } else {
+            ""
+        }
     }
 
     private fun initAdapter() {

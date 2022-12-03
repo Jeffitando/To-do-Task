@@ -49,9 +49,7 @@ class TaskAdapter(
                 holder.binding.ibNext.setColorFilter(
                     ContextCompat.getColor(context, R.color.color_doing)
                 )
-                holder.binding.ibNext.setOnClickListener {
-                    taskSelected(task, SELECT_NEXT)
-                }
+                holder.binding.ibNext.setOnClickListener {taskSelected(task, SELECT_NEXT)}
             }
             1 -> {
                 holder.binding.ibBack.setColorFilter(
@@ -60,12 +58,8 @@ class TaskAdapter(
                 holder.binding.ibNext.setColorFilter(
                     ContextCompat.getColor(context, R.color.color_done)
                 )
-                holder.binding.ibBack.setOnClickListener {
-                    taskSelected(task, SELECT_BACK)
-                }
-                holder.binding.ibNext.setOnClickListener {
-                    taskSelected(task, SELECT_NEXT)
-                }
+                holder.binding.ibBack.setOnClickListener {taskSelected(task, SELECT_BACK)}
+                holder.binding.ibNext.setOnClickListener {taskSelected(task, SELECT_NEXT)}
             }
             else -> {
                 holder.binding.ibNext.isVisible = false
@@ -86,6 +80,6 @@ class TaskAdapter(
     inner class MyViewHolder(val binding: ItemAdapterBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    //teste
+
 
 }
