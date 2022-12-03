@@ -1,21 +1,16 @@
 package com.example.task.ui.auth
 
-import android.content.ContentValues.TAG
-import android.nfc.Tag
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.task.R
 import com.example.task.databinding.FragmentLoginBinding
-import com.example.task.databinding.SplashFragmentBinding
 import com.example.task.helper.BaseFragment
 import com.example.task.helper.FirebaseHelper
+import com.example.task.helper.showBottomSheet
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -31,13 +26,10 @@ class LoginFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
-
-    // As funcôes devem ser chamadas dentro do (OnViewCreated)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,10 +40,7 @@ class LoginFragment : BaseFragment() {
     }
 
     private fun initClicks() {
-
-        binding.btnLogin.setOnClickListener {
-            validateData()
-        }
+        binding.btnLogin.setOnClickListener { validateData() }
 
         binding.btnRegister.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
@@ -76,34 +65,33 @@ class LoginFragment : BaseFragment() {
                 loginUser(email, password)
 
             } else {
-                Toast.makeText(requireContext(), "Informe sua senha.", Toast.LENGTH_SHORT).show()
+                showBottomSheet(
+                    message = R.string.text_password_empty_login_fragment
+                )
             }
-
         } else {
-            Toast.makeText(requireContext(), "Informe seu e-mail.", Toast.LENGTH_SHORT).show()
+            showBottomSheet(
+                message = R.string.text_email_empty_login_fragment
+            )
         }
     }
 
     private fun loginUser(email: String, password: String) {
-
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     findNavController().navigate(R.id.action_global_homeFragment)
                 } else {
-                    // Log.i("INFOTESTE", "loginUser: ${task.exception?.message}")
-                    Toast.makeText(
-                        requireContext(),
-                        FirebaseHelper.validError(task.exception?.message ?: ""),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showBottomSheet(
+                        message = FirebaseHelper.validError(task.exception?.message ?: "")
+                    )
                     binding.progressBar.isVisible = false
                 }
             }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

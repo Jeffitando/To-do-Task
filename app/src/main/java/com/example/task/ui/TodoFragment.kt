@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.task.R
 import com.example.task.databinding.FragmentTodoBinding
 import com.example.task.helper.FirebaseHelper
+import com.example.task.helper.showBottomSheet
 import com.example.task.model.Task
 import com.example.task.ui.adapter.TaskAdapter
 import com.google.firebase.database.DataSnapshot
@@ -31,10 +32,9 @@ class TodoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentTodoBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,6 +68,7 @@ class TodoFragment : Fragment() {
 
                             if (task.status == 0) taskList.add(task)
                         }
+
                         taskList.reverse()
                         initAdapter()
                     }
@@ -80,13 +81,14 @@ class TodoFragment : Fragment() {
                 override fun onCancelled(error: DatabaseError) {
                     Toast.makeText(requireContext(), "Erro", Toast.LENGTH_SHORT).show()
                 }
+
             })
     }
 
-    private fun tasksEmpty(){
-        binding.textInfo.text = if (taskList.isEmpty()){
-           getText(R.string.text_task_list_empty_todo_fragment)
-        }else{
+    private fun tasksEmpty() {
+        binding.textInfo.text = if (taskList.isEmpty()) {
+            getText(R.string.text_task_list_empty_todo_fragment)
+        } else {
             ""
         }
     }
@@ -95,13 +97,12 @@ class TodoFragment : Fragment() {
         binding.rvTask.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTask.setHasFixedSize(true)
         taskAdapter = TaskAdapter(requireContext(), taskList) { task, select ->
-            optionSelected(task, select)
+            optionSelect(task, select)
         }
-
         binding.rvTask.adapter = taskAdapter
     }
 
-    private fun optionSelected(task: Task, select: Int) {
+    private fun optionSelect(task: Task, select: Int) {
         when (select) {
             TaskAdapter.SELECT_REMOVE -> {
                 deleteTask(task)
@@ -111,14 +112,14 @@ class TodoFragment : Fragment() {
                     .actionHomeFragmentToFormTaskFragment(task)
                 findNavController().navigate(action)
             }
-            TaskAdapter.SELECT_NEXT ->{
+            TaskAdapter.SELECT_NEXT -> {
                 task.status = 1
                 updateTask(task)
             }
         }
     }
 
-    private fun updateTask(task:Task) {
+    private fun updateTask(task: Task) {
         FirebaseHelper
             .getDatabase()
             .child("task")
@@ -128,34 +129,56 @@ class TodoFragment : Fragment() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(
-                        requireContext(), "Tarefa atualizada com sucesso.", Toast.LENGTH_SHORT
+                        requireContext(),
+                        R.string.text_task_update_sucess,
+                        Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    Toast.makeText(
-                        requireContext(), "Erro ao salvar tarefa.", Toast.LENGTH_SHORT
-                    ).show()
+                    showBottomSheet(message = R.string.error_generic)
                 }
             }.addOnFailureListener {
                 binding.progressBar.isVisible = false
-                Toast.makeText(requireContext(), "Erro ao salvar tarefa.", Toast.LENGTH_SHORT)
-                    .show()
+                showBottomSheet(message = R.string.error_generic)
             }
     }
 
     private fun deleteTask(task: Task) {
-        FirebaseHelper
-            .getDatabase()
-            .child("task")
-            .child(FirebaseHelper.getIdUser() ?: "")
-            .child(task.id)
-            .removeValue()
+        showBottomSheet(
+            titleButton = R.string.text_button_confirm,
+            message = R.string.text_message_delete_task_todo_fragment,
+            onClick = {
+                FirebaseHelper
+                    .getDatabase()
+                    .child("task")
+                    .child(FirebaseHelper.getIdUser() ?: "")
+                    .child(task.id)
+                    .removeValue()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(
+                                requireContext(),
+                                R.string.text_task_update_sucess,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            showBottomSheet(message = R.string.error_generic)
+                        }
+                    }.addOnFailureListener {
+                        binding.progressBar.isVisible = false
+                        showBottomSheet(message = R.string.error_generic)
+                    }
 
-        taskList.remove(task)
-        taskAdapter.notifyDataSetChanged()
+                taskList.remove(task)
+                taskAdapter.notifyDataSetChanged()
+
+                Toast.makeText(requireContext(), R.string.text_task_delete_sucess, Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
+
 }

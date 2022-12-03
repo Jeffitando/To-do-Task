@@ -24,12 +24,10 @@ class HomeFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -39,46 +37,40 @@ class HomeFragment : Fragment() {
 
         auth = Firebase.auth
 
-        configTabLayout()
+        configTablayout()
 
         initClicks()
     }
 
     private fun initClicks() {
-
         binding.ibLogout.setOnClickListener { logoutApp() }
     }
 
     private fun logoutApp() {
         auth.signOut()
         findNavController().navigate(R.id.action_homeFragment_to_authentication)
-
     }
 
-    private fun configTabLayout() {
+    private fun configTablayout() {
         val adapter = ViewPagerAdapter(requireActivity())
         binding.viewPager.adapter = adapter
 
-        adapter.addFragment(TodoFragment(), "Fazer")
-        adapter.addFragment(DoingFragment(), "Fazendo")
-        adapter.addFragment(DoneFragment(), "Feitas")
+        adapter.addFragment(TodoFragment(), R.string.status_task_todo)
+        adapter.addFragment(DoingFragment(), R.string.status_task_doing)
+        adapter.addFragment(DoneFragment(), R.string.status_task_done)
 
         binding.viewPager.offscreenPageLimit = adapter.itemCount
 
         TabLayoutMediator(
             binding.tabs, binding.viewPager
         ) { tab, position ->
-            tab.text = adapter.getTitle(
-                position
-            )
+            tab.text = getString(adapter.getTitle(position))
         }.attach()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 
 }
-
-

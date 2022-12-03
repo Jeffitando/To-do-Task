@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_edit"
-                android:hint="Criar nova tela de Login"
+                android:hint="@string/text_description_hint_form_task_fragment"
                 android:padding="14dp"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +97,7 @@
                     android:layout_weight="1"
                     android:checked="true"
                     android:buttonTint="@color/teal_700"
-                    android:text="Fazer"
+                    android:text="@string/status_task_todo"
                     android:textColor="@color/teal_700" />
 
                 <RadioButton
@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:buttonTint="@color/teal_700"
-                    android:text="Fazendo"
+                    android:text="@string/status_task_doing"
                     android:textColor="@color/teal_700" />
 
                 <RadioButton
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:buttonTint="@color/teal_700"
-                    android:text="Feito"
+                    android:text="@string/status_task_done"
                     android:textColor="@color/teal_700" />
 
 

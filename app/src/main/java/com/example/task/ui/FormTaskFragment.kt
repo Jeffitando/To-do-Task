@@ -14,6 +14,7 @@ import com.example.task.databinding.FragmentFormTaskBinding
 import com.example.task.helper.BaseFragment
 import com.example.task.helper.FirebaseHelper
 import com.example.task.helper.initToolbar
+import com.example.task.helper.showBottomSheet
 import com.example.task.model.Task
 
 
@@ -24,25 +25,23 @@ class FormTaskFragment : BaseFragment() {
     private var _binding: FragmentFormTaskBinding? = null
     private val binding get() = _binding!!
 
-
     private lateinit var task: Task
     private var newTask: Boolean = true
     private var statusTask: Int = 0
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentFormTaskBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initToolbar(binding.toolbar)
 
-        initListners()
+        initListeners()
 
         getArgs()
     }
@@ -51,9 +50,6 @@ class FormTaskFragment : BaseFragment() {
         args.task.let {
             if (it != null) {
                 task = it
-
-
-
                 configTask()
             }
         }
@@ -62,10 +58,9 @@ class FormTaskFragment : BaseFragment() {
     private fun configTask() {
         newTask = false
         statusTask = task.status
-        binding.textToolbar.text = "Editando tarefa..."
+        binding.textToolbar.text = getString(R.string.text_editing_task_form_task_fragment)
 
         binding.edtDescription.setText(task.description)
-
         setStatus()
     }
 
@@ -85,23 +80,19 @@ class FormTaskFragment : BaseFragment() {
         )
     }
 
-    private fun initListners() {
-        binding.btnSave.setOnClickListener { validateTask() }
-        // na segunda underline estava um ( i )
-        binding.radioGroup.setOnCheckedChangeListener { _, i ->
+    private fun initListeners() {
+        binding.btnSave.setOnClickListener { validateData() }
+
+        binding.radioGroup.setOnCheckedChangeListener { _, id ->
             statusTask = when (id) {
                 R.id.rbTodo -> 0
                 R.id.rbDoing -> 1
                 else -> 2
-
             }
         }
-
     }
 
-    private fun validateTask() {
-
-
+    private fun validateData() {
         val description = binding.edtDescription.text.toString().trim()
 
         if (description.isNotEmpty()) {
@@ -115,13 +106,9 @@ class FormTaskFragment : BaseFragment() {
             task.status = statusTask
 
             saveTask()
-
         } else {
-            Toast.makeText(
-                requireContext(), "Informe uma descrição para a tarefa.", Toast.LENGTH_SHORT
-            ).show()
+            showBottomSheet(message = R.string.text_description_empty_form_task_fragment)
         }
-
     }
 
     private fun saveTask() {
@@ -133,32 +120,34 @@ class FormTaskFragment : BaseFragment() {
             .setValue(task)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    if (newTask) {// Nova tarefa
-                        //quando filanizar a tarefa a tela vai fechar e voltar para a anterior
+                    if (newTask) { // Nova tarefa
                         findNavController().popBackStack()
                         Toast.makeText(
-                            requireContext(), "Tarefa salva com sucesso.", Toast.LENGTH_SHORT
+                            requireContext(),
+                            R.string.text_save_task_sucess_form_task_fragment,
+                            Toast.LENGTH_SHORT
                         ).show()
                     } else { // Editando tarefa
                         binding.progressBar.isVisible = false
                         Toast.makeText(
-                            requireContext(), "Tarefa atualizada com sucesso.", Toast.LENGTH_SHORT
+                            requireContext(),
+                            R.string.text_update_task_sucess_form_task_fragment,
+                            Toast.LENGTH_SHORT
                         ).show()
                     }
                 } else {
-                    Toast.makeText(
-                        requireContext(), "Tarefa salva com sucesso.", Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(requireContext(), R.string.text_erro_save_task_form_task_fragment, Toast.LENGTH_SHORT)
+                        .show()
                 }
             }.addOnFailureListener {
                 binding.progressBar.isVisible = false
-                Toast.makeText(requireContext(), "Erro ao salvar tarefa.", Toast.LENGTH_SHORT)
+                Toast.makeText(requireContext(), R.string.text_erro_save_task_form_task_fragment, Toast.LENGTH_SHORT)
                     .show()
             }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 
