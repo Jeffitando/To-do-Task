@@ -7,7 +7,7 @@
     <string name="text_register_account">Criar conta</string>
     <string name="text_recover_account">Recuperar conta</string>
     <string name="error_generic">Ocorreu um erro, por favor tente novamente mais tarde.</string>
-    <string name="text_email_hint">email@email.com</string>
+    <string name="text_email_hint">email@exemplo.com</string>
     <string name="text_password_hint">******</string>
     <string name="text_button_confirm">Confirmar</string>
     <string name="text_task_delete_sucess">Tarefa removida com sucesso.</string>
