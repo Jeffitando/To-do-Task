@@ -30,7 +30,7 @@
 
 
 
-# 🔥:Tecnologias
+# 🔥: Tecnologias
 
 <div align="center"> 
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg" height="40" width="52" alt="android logo"  />
@@ -39,7 +39,7 @@
 </div>
 
 ---
-### Autor
+# 🖐🏽: Autor
 
 
 <a href="https://github.com/Jeffitando">
