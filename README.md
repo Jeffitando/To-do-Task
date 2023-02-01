@@ -1,16 +1,20 @@
 <h1 align="center"> To-do. </h1>
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/86518315/211746409-eb2b6ab9-1adb-4a65-bda0-7d2bfa8d5e45.png" height="150"/>
+
+<img src="https://user-images.githubusercontent.com/86518315/216052380-dc8ae3ec-f80f-4669-a5ba-39be64012a90.png" height="150"/>
+
+
 </p>
 
 
 
 # 🖥️: Preview
 
-<p align="center">
+<div align="center"> 
+<video src="https://user-images.githubusercontent.com/86518315/216049538-8c138f65-faf4-416f-9f7a-d734a24b5e47.mp4"/>
+</div>
 
-</p>
 
 
 
